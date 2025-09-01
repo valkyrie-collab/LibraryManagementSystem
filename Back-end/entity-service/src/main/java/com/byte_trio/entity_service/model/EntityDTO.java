@@ -1,15 +1,6 @@
 package com.byte_trio.entity_service.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-import java.util.Date;
-
-@Entity
-@Table(name = "entity_field")
-public class EntityField {
-    @Id
+public class EntityDTO {
     private String id;
     private String name;
     private String email;
@@ -19,40 +10,30 @@ public class EntityField {
     public String getId() {return id;}
 
     public String getName() {return name;}
-    
+
     public String getEmail() {return email;}
-    
+
     public String getPhoneNumber() {return phoneNumber;}
-    
+
 //    public String getBorrowedBook() {return borrowedBook;}
-    
-    public EntityField setId(String id) {
+
+    public EntityDTO setId(String id) {
         this.id = id;
         return this;
     }
 
-    public EntityField setName(String name) {
+    public EntityDTO setName(String name) {
         this.name = name;
         return this;
     }
 
-    public EntityField setEmail(String email) {
+    public EntityDTO setEmail(String email) {
         this.email = email;
         return this;
     }
 
-    public EntityField setPhoneNumber(String phoneNumber) {
+    public EntityDTO setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
         return this;
-    }
-
-//    public EntityField setBorrowedBook(String borrowedBook) {
-//        this.borrowedBook = borrowedBook;
-//        return this;
-//    }
-
-    @Override
-    public String toString() {
-        return id + name + email + phoneNumber;
     }
 }

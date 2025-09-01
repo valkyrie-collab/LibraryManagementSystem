@@ -12,5 +12,5 @@ import java.util.List;
 public interface BookFeignClients {
 
     @GetMapping("/book/borrow-book")
-    ResponseEntity<List<Book>> borrowBook(@RequestParam String bookId);
+    ResponseEntity<Book> borrowBook(@RequestParam String bookId);
 }
