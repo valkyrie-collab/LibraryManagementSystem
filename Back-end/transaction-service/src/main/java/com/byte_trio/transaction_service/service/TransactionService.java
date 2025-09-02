@@ -86,7 +86,7 @@ public class TransactionService {
     public ResponseEntity<List<BookDTO>> numberOfBooksBorrowed(String token) {
         String username = config.getUsername(token);
         //continue next time, controller left not done,
-        // remove first one after 50 history, entity and transaction .properties
+        // git remove first one after 50 history, entity and transaction .properties
     }
 
 }
