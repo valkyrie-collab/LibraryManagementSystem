@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, String> {
@@ -17,6 +18,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, String
     @Transactional
     @Query("update Transaction t set t.dueDate = :dueDate where t.id = :id")
     void updateDueDate(@Param("dueDate") Date dueDate, @Param("id") String id);
+
+    List<Transaction> findAllByBorrowerId(String borrowerId);
 
 //    @Modifying
 //    @Transactional

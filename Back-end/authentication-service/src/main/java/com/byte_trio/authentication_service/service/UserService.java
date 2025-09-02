@@ -12,6 +12,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
+
 @Service
 public class UserService {
     private static final BCryptPasswordEncoder ENCODER = new BCryptPasswordEncoder(12);
@@ -55,6 +57,7 @@ public class UserService {
     }
 
     public ResponseEntity<User> getUser(String username) {
+        username = new String(Base64.getDecoder().decode(username));
         User user = repo.findById(username).orElse(null);
 
         return user == null? ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null) :

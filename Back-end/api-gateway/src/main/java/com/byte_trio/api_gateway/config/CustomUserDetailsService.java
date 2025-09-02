@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.util.Base64;
+
 @Component
 public class CustomUserDetailsService implements UserDetailsService {
 //    private UserRepository repo;
@@ -21,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = feign.getUser(username).getBody();//repo.findById(username).orElse(null);
+        User user = feign.getUser(Base64.getEncoder().encodeToString(username.getBytes())).getBody();//repo.findById(username).orElse(null);
 
         if (user == null) {
             throw new UsernameNotFoundException("USER-404");
