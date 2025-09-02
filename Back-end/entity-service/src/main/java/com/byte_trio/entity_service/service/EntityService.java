@@ -2,13 +2,11 @@ package com.byte_trio.entity_service.service;
 
 import com.byte_trio.entity_service.config.TokenConfig;
 import com.byte_trio.entity_service.feign.BookFeignClients;
-import com.byte_trio.entity_service.model.Book;
 import com.byte_trio.entity_service.model.EntityDTO;
 import com.byte_trio.entity_service.model.EntityField;
 import com.byte_trio.entity_service.repository.EntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 

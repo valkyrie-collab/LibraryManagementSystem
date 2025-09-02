@@ -1,12 +1,10 @@
 package com.byte_trio.entity_service.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Book {
+public class BookDTO {
 
     @Id
     private long isbn_no;
@@ -31,7 +29,7 @@ public class Book {
         return title;
     }
 
-    public Book setTitle(String title) {
+    public BookDTO setTitle(String title) {
         this.title = title;
         return this;
     }
@@ -40,16 +38,16 @@ public class Book {
         return author;
     }
 
-    public Book setAuthor(String author) {
+    public BookDTO setAuthor(String author) {
         this.author = author;
         return this;
     }
 
-    public double getIsbn_no() {
+    public long getIsbn_no() {
         return isbn_no;
     }
 
-    public Book setIsbn_no(double isbn_no) {
+    public BookDTO setIsbn_no(long isbn_no) {
         this.isbn_no = isbn_no;
         return this;
     }
@@ -58,7 +56,7 @@ public class Book {
         return genre;
     }
 
-    public Book setGenre(String genre) {
+    public BookDTO setGenre(String genre) {
         this.genre = genre;
         return this;
     }
@@ -67,7 +65,7 @@ public class Book {
         return availabilty;
     }
 
-    public Book setAvailabilty(boolean availabilty) {
+    public BookDTO setAvailabilty(boolean availabilty) {
         this.availabilty = availabilty;
         return this;
     }
@@ -76,7 +74,7 @@ public class Book {
         return avail_copies;
     }
 
-    public Book setAvail_copies(int avail_copies) {
+    public BookDTO setAvail_copies(int avail_copies) {
         this.avail_copies = avail_copies;
         return this;
     }
