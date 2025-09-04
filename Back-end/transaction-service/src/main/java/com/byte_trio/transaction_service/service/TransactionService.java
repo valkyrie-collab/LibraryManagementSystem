@@ -83,7 +83,7 @@ public class TransactionService {
 
         if (days > 0) {
             String uuid = UUID.randomUUID().toString();
-            Fine fine = new Fine().setMemberId(transaction.getBorrowerId())
+            Fine fine = new Fine().setTransactionId(transaction.getBorrowerId())
                     .setId(uuid).setAmount(11.9 * days).setReason(lateReason).setPaidStatus(false);
             fineFeign.save(fine);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body("fine given....");

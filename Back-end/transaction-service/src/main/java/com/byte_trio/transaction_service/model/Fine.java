@@ -2,7 +2,7 @@ package com.byte_trio.transaction_service.model;
 
 public class Fine {
     private String id;
-    private String memberId;
+    private String transactionId;
     private double amount;
     private String reason;
     private boolean paidStatus;
@@ -16,12 +16,12 @@ public class Fine {
         return this;
     }
 
-    public String getMemberId() {
-        return memberId;
+    public String getTransactionId() {
+        return transactionId;
     }
 
-    public Fine setMemberId(String memberId) {
-        this.memberId = memberId;
+    public Fine setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
         return this;
     }
 
