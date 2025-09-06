@@ -1,0 +1,125 @@
+version: "3.8"
+
+volumes:
+  postgres-storage-data:
+
+networks:
+  myNetwork:
+    driver: bridge
+
+services:
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: valkyrie
+      POSTGRES_PASSWORD: valkyrie3008
+      POSTGRES_DB: valkyrieDB
+    volumes:
+      - postgres-storage-data:/var/lib/postgresql/data
+      - ./DBMS/dbms.sql:/docker-entrypoint-initdb.d/dbms.sql
+    networks:
+      - myNetwork
+
+  api-gateway:
+    build: ./api-gateway
+    depends_on:
+      - authentication-service
+      - book-service
+      - entity-service
+      - fine-service
+      - transaction-service
+    ports:
+      - "8080:8080"
+    environment:
+      JWTS_SECURITY: 4Pm+VWXTf/9yC5Qw+zA3mee6CluFCUfVYM+41u2Me90=
+      PORT: 8080
+    networks:
+      - myNetwork
+
+  authentication-service:
+    build: ./authentication-service
+    depends_on:
+      - postgres
+    ports:
+      - "8085:8085"
+    environment:
+      URL: jdbc:postgresql://postgres:5432/authentication
+      USERNAME: valkyrie
+      PASSWORD: valkyrie3008
+      JWTS_SECURITY: 4Pm+VWXTf/9yC5Qw+zA3mee6CluFCUfVYM+41u2Me90=
+      PORT: 8085
+    networks:
+      - myNetwork
+
+  book-service:
+    build: ./book-service
+    depends_on:
+      - postgres
+    ports:
+      - "8084:8084"
+    environment:
+      URL: jdbc:postgresql://postgres:5432/book
+      USERNAME: valkyrie
+      PASSWORD: valkyrie3008
+      JWTS_SECURITY: 4Pm+VWXTf/9yC5Qw+zA3mee6CluFCUfVYM+41u2Me90=
+      PORT: 8084
+    networks:
+      - myNetwork
+
+  entity-service:
+    build: ./entity-service
+    depends_on:
+      - postgres
+    ports:
+      - "8083:8083"
+    environment:
+      URL: jdbc:postgresql://postgres:5432/entitys
+      USERNAME: valkyrie
+      PASSWORD: valkyrie3008
+      JWTS_SECURITY: 4Pm+VWXTf/9yC5Qw+zA3mee6CluFCUfVYM+41u2Me90=
+      PORT: 8083
+    networks:
+      - myNetwork
+
+  fine-service:
+    build: ./fine-service
+    depends_on:
+      - postgres
+    ports:
+      - "8082:8082"
+    environment:
+      URL: jdbc:postgresql://postgres:5432/fine
+      USERNAME: valkyrie
+      PASSWORD: valkyrie3008
+      JWTS_SECURITY: 4Pm+VWXTf/9yC5Qw+zA3mee6CluFCUfVYM+41u2Me90=
+      PORT: 8082
+    networks:
+      - myNetwork
+
+  transaction-service:
+    build: ./transaction-service
+    depends_on:
+      - postgres
+    ports:
+      - "8081:8081"
+    environment:
+      URL: jdbc:postgresql://postgres:5432/transaction
+      USERNAME: valkyrie
+      PASSWORD: valkyrie3008
+      JWTS_SECURITY: 4Pm+VWXTf/9yC5Qw+zA3mee6CluFCUfVYM+41u2Me90=
+      PORT: 8081
+    networks:
+      - myNetwork
+
+  service-registry:
+    build: ./service-registry
+    ports:
+      - "8761:8761"
+    environment:
+      HOSTNAME: service-registry
+      JWTS_SECURITY: 4Pm+VWXTf/9yC5Qw+zA3mee6CluFCUfVYM+41u2Me90=
+      PORT: 8761
+    networks:
+      - myNetwork

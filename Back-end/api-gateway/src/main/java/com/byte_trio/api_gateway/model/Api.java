@@ -25,31 +25,31 @@ public class Api {
 
     @Bean
     public RouterFunction<ServerResponse> routerFunction() {
-        return post("authentication", "/user/**", "http://localhost:8085/")
+        return post("authentication", "/user/**", "http://authentication-service:8085/")
                 .and(
-                        post("book-post", "/book/**", "http://localhost:8084/")
+                        post("book-post", "/book/**", "http://book-service:8084/")
                 ).and(
-                        get("book-get", "/book/**", "http://localhost:8084/")
+                        get("book-get", "/book/**", "http://book-service:8084/")
                 ).and(
-                        delete("book-delete", "/book/**", "http://localhost:8084/")
+                        delete("book-delete", "/book/**", "http://book-service:8084/")
                 ).and(
-                        post("entity-post", "/entity/**", "http://localhost:8083/")
+                        post("entity-post", "/entity/**", "http://entity-service:8083/")
                 ).and(
-                        get("entity-get", "/entity/**", "http://localhost:8083/")
+                        get("entity-get", "/entity/**", "http://entity-service:8083/")
                 ).and(
-                        delete("entity-delete", "/entity/**", "http://localhost:8083/")
+                        delete("entity-delete", "/entity/**", "http://entity-service:8083/")
+//                ).and(
+//                        post("fine-post", "/fine/**", "http://fine-service:8082/")
                 ).and(
-                        post("fine-post", "/fine/**", "http://localhost:8082/")
+                        get("fine-get", "/fine/**", "http://fine-service:8082/")
                 ).and(
-                        get("fine-get", "/fine/**", "http://localhost:8082/")
+                        delete("fine-delete", "/fine/**", "http://fine-service:8082/")
                 ).and(
-                        delete("fine-delete", "/fine/**", "http://localhost:8082/")
+                        post("trans-post", "/transaction/**", "http://transaction-service:8081")
                 ).and(
-                        post("trans-post", "/transaction/**", "http://localhost:8081")
+                        get("trans-get", "/transaction/**", "http://transaction-service:8081")
                 ).and(
-                        get("trans-get", "/transaction/**", "http://localhost:8081")
-                ).and(
-                        get("trans-delete", "/transaction/**", "http://localhost:8081")
+                        get("trans-delete", "/transaction/**", "http://transaction-service:8081")
                 );
     }
 }
