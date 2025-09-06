@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 import java.util.Date;
 
 @Entity
-@Table(name = "entity_field")
+@Table(name = "entitys")
 public class EntityField {
     @Id
     private String id;

@@ -29,7 +29,7 @@ public class EntityService {
     public ResponseEntity<String> save(String token, EntityField entityField) {
         entityField = entityField.setId(config.getUsername(token));
         repo.save(entityField);
-
+        //repo.save(entityField.setId(token));
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("Saved successfully...");
     }
 

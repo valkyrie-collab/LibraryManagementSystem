@@ -18,14 +18,14 @@ public class BookController {
     @Autowired
     BookService bookService;
 
-    @GetMapping("search")
+    @GetMapping("search-title")
     public ResponseEntity<List<BookDTO>> searchByTitle(@RequestParam String encoded_title){
         byte[] decodedbytes = Base64.getDecoder().decode(encoded_title);
         String title = new String(decodedbytes);
         return ResponseEntity.status(HttpStatus.OK).body(bookService.searchByTitle(title));
     }
 
-    @GetMapping("search")
+    @GetMapping("search-author")
     public ResponseEntity<List<BookDTO>> searchByAuthor(@RequestParam String encoded_title){
         byte[] decodedbytes = Base64.getDecoder().decode(encoded_title);
         String author = new String(decodedbytes);
@@ -33,15 +33,15 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.OK).body(bookService.searchByAuthor(author));
     }
 
-    @GetMapping("search")
+    @GetMapping("search-isbn")
     public ResponseEntity<List<BookDTO>> searchByISBN(@RequestParam String encoded_title){
         byte[] decodedbytes = Base64.getDecoder().decode(encoded_title);
-        String isbn_no = new String(decodedbytes);
+        long isbn_no = Long.parseLong(new String(decodedbytes));
         //return bookService.searchByISBN(isbn_no);
         return ResponseEntity.status(HttpStatus.OK).body(bookService.searchByISBN(isbn_no));
     }
 
-    @GetMapping("search")
+    @GetMapping("search-genre")
     public ResponseEntity<List<BookDTO>> searchByGenre(@RequestParam String encoded_title){
         byte[] decodedbytes = Base64.getDecoder().decode(encoded_title);
         String genre = new String(decodedbytes);
@@ -49,22 +49,22 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.OK).body(bookService.searchByGenre(genre));
     }
 
-    @GetMapping("search")
-    public ResponseEntity<List<BookDTO>> searchByAvailabilty(@RequestParam String encoded_title){
-        byte[] decodedbytes = Base64.getDecoder().decode(encoded_title);
-        String availability = new String(decodedbytes);
-        //return bookService.searchByGenre(genre);
-        return ResponseEntity.status(HttpStatus.OK).body(bookService.searchByAvailability(availability));
-    }
+//    @GetMapping("search-availabilty")
+//    public ResponseEntity<List<BookDTO>> searchByAvailabilty(@RequestParam String encoded_title){
+//        byte[] decodedbytes = Base64.getDecoder().decode(encoded_title);
+//        String availability = new String(decodedbytes);
+//        //return bookService.searchByGenre(genre);
+//        return ResponseEntity.status(HttpStatus.OK).body(bookService.searchByAvailability(availability));
+//    }
 
     @PostMapping("edit")
     public ResponseEntity<String> editBook(@RequestBody Book book){
-        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.editBook(book));
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(bookService.editBook(book));
     }
 
     @PostMapping("addnewbook")
     public ResponseEntity<String> addNewBook(@RequestBody Book book){
-        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.addNewBook(book));
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(bookService.addNewBook(book));
     }
 
     @DeleteMapping("delete")
@@ -76,5 +76,11 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+
+    @GetMapping("/borrow-book")
+    public ResponseEntity<BookDTO> borrowBook(@RequestParam String bookId) {
+
+        return bookService.borrowBook(bookId);
+    }
 
 }

@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient("AUTHENTICATION-SERVICE")
 public interface AuthenticationFeignController {
 
-    @GetMapping("/get-user")
+    @GetMapping("/user/get-user")
     ResponseEntity<User> getUser(@RequestParam String username);
 }

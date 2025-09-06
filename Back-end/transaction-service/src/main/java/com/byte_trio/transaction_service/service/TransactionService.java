@@ -38,16 +38,16 @@ public class TransactionService {
     @Autowired
     private void setBookFeign(BookFeignController bookFeign) {this.bookFeign = bookFeign;}
 
-    private AuthenticationFeignController authFeign;
-    @Autowired
-    private void setAuthFeign(AuthenticationFeignController authFeign) {this.authFeign = authFeign;}
+//    private AuthenticationFeignController authFeign;
+//    @Autowired
+//    private void setAuthFeign(AuthenticationFeignController authFeign) {this.authFeign = authFeign;}
 
     public ResponseEntity<String> save(String username, Transaction transaction) {
 //        String username = config.getUsername(token);
 
-        if (!authFeign.getUser(username).getStatusCode().equals(HttpStatusCode.valueOf(200))) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
+//        if (!authFeign.getUser(username).getStatusCode().equals(HttpStatusCode.valueOf(200))) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+//        }
 
 //        String encodedUsername = Base64.getEncoder().encodeToString(username.getBytes());
         ResponseEntity<EntityDTO> response = feign.find(username);
@@ -110,17 +110,17 @@ public class TransactionService {
             repo.deleteById(transactions.getFirst().getId());
         }
 
-        List<BookDTO> bookDTOs = new ArrayList<>();
-
         for (Transaction transaction : transactions) {
+            List<BookDTO> bookDTOs = new ArrayList<>();
 
             for (String bookId : transaction.getBookIds()) {
-                ResponseEntity<BookDTO> response = bookFeign.borrowBook(bookId);
+                ResponseEntity<BookDTO> response = bookFeign.borrowBook(Base64.getEncoder().encodeToString(bookId.getBytes()));
 
                 if (response == null || response.getBody() == null) {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ArrayList<>());
                 }
 
+                System.out.println(response.getBody().toString());
                 BookDTO bookDTO = response.getBody();
                 bookDTOs.add(bookDTO);
             }

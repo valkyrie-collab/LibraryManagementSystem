@@ -35,7 +35,7 @@ public class SecurityConfig {
                         a -> a.requestMatchers(
                                 "/user/sign-in", "/user/log-in"
                         ).permitAll().requestMatchers("/user/**")
-                                .hasAnyRole("CONSUMER", "STAFF", "ADMIN")
+                                .hasAnyRole("MEMBER", "STAFF", "ADMIN")
                                 .anyRequest().authenticated()
                 ).httpBasic(Customizer.withDefaults())
                 .sessionManagement(s ->

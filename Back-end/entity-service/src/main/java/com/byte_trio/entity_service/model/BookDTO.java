@@ -3,10 +3,9 @@ package com.byte_trio.entity_service.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
-@Entity
+
 public class BookDTO {
 
-    @Id
     private long isbn_no;
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    private int id;

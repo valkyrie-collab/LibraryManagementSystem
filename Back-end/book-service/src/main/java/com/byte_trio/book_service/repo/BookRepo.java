@@ -11,21 +11,19 @@ import java.util.List;
 @Repository
 @FeignClient
 public interface BookRepo extends JpaRepository<Book,Long>{
-    @Query("SELECT s from bookdb s WHERE s.title LIKE %:title%")
+    @Query("SELECT s from Book s WHERE LOWER(s.title) LIKE %:title%")
     List<Book> findAllBookByTitle(@Param("title") String title);
 
-    @Query("SELECT s from bookdb s WHERE s.author LIKE %:author%")
+    @Query("SELECT s from Book s WHERE LOWER(s.author) LIKE %:author%")
     List<Book> findAllBookByAuthor(String author);
 
-    @Query("SELECT s from bookdb s WHERE s.isbn_no LIKE %:isbn_no%")
-    List<Book> findAllBookByISBN(String isbnNo);
+    @Query("SELECT s from Book s WHERE CAST(s.isbn_no AS string) LIKE %:isbn_no%")
+    List<Book> findAllBookByISBN(@Param("isbn_no") long isbn_no);
 
-    @Query("SELECT s from bookdb s WHERE s.genre LIKE %:genre%")
+    @Query("SELECT s from Book s WHERE LOWER(s.genre) LIKE %:genre%")
     List<Book> findAllBookByGenre(String genre);
 
-    @Query("SELECT s FROM Bookdb s WHERE s.availability = true ")
-    List<Book> findAllBookByAvailability(String availability);
-
-    boolean existsByIsbnNo(Long isbnNo);
+//    @Query("SELECT s FROM Book s WHERE s.availabilty = true ")
+//    List<Book> findAllBookByAvailability(String availability);
 
 }

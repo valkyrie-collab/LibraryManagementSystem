@@ -4,7 +4,12 @@ import com.byte_trio.book_service.model.Book;
 import com.byte_trio.book_service.model.BookDTO;
 import com.byte_trio.book_service.repo.BookRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.sql.SQLOutput;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -23,37 +28,38 @@ public class BookService {
         return bookDTO;
     }
     public List<BookDTO> searchByTitle(String title) {
-        List<Book> book = bookRepo.findAllBookByTitle(title);
+        List<Book> book = bookRepo.findAllBookByTitle(title.toLowerCase());
+        System.out.println(title+" "+book.toString());
         List<BookDTO> bookDTOS = book.stream().map(this::getBook).toList();
         return bookDTOS;
     }
 
     public List<BookDTO> searchByAuthor(String author) {
-        List<Book> book = bookRepo.findAllBookByAuthor(author);
+        List<Book> book = bookRepo.findAllBookByAuthor(author.toLowerCase());
         List<BookDTO> bookDTOS = book.stream().map(this::getBook).toList();
         return bookDTOS;
     }
 
-    public List<BookDTO> searchByISBN(String isbnNo) {
+    public List<BookDTO> searchByISBN(long isbnNo) {
         List<Book> book = bookRepo.findAllBookByISBN(isbnNo);
         List<BookDTO> bookDTOS = book.stream().map(this::getBook).toList();
         return bookDTOS;
     }
 
     public List<BookDTO> searchByGenre(String genre) {
-        List<Book> book =  bookRepo.findAllBookByGenre(genre);
+        List<Book> book =  bookRepo.findAllBookByGenre(genre.toLowerCase());
         List<BookDTO> bookDTOS = book.stream().map(this::getBook).toList();
         return bookDTOS;
     }
 
-    public List<BookDTO> searchByAvailability(String availability) {
-        List<Book> book = bookRepo.findAllBookByAvailability(availability);
-        List<BookDTO> bookDTOS = book.stream().map(this::getBook).toList();
-        return bookDTOS;
-    }
+//    public List<BookDTO> searchByAvailability(String availability) {
+//        List<Book> book = bookRepo.findAllBookByAvailability(availability.toLowerCase());
+//        List<BookDTO> bookDTOS = book.stream().map(this::getBook).toList();
+//        return bookDTOS;
+//    }
 
     public String editBook(Book book) {
-        if (bookRepo.existsByIsbnNo(book.getIsbn_no())) {
+        if (bookRepo.findById(book.getIsbn_no()).orElse(null) != null) {
             bookRepo.save(book); // update existing book
             return "Book details updated successfully.";
         } else {
@@ -74,5 +80,16 @@ public class BookService {
         } else {
             return "Book not found with id: " + isbn_no;
         }
+    }
+
+    public ResponseEntity<BookDTO> borrowBook(String bookId) {
+        long longBookId = Long.parseLong(new String(Base64.getDecoder().decode(bookId)));
+        Book book = bookRepo.findById(longBookId).orElse(null);
+
+        if (book == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(getBook(book));
     }
 }
